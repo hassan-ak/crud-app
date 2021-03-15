@@ -2,6 +2,7 @@ import React from "react";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
 import { gql, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { IconButton } from "@material-ui/core";
 
 const GET_CRUDS = gql`
@@ -12,9 +13,18 @@ const GET_CRUDS = gql`
     }
   }
 `;
+const DeleteCurdMutation = gql`
+  mutation deleteCrud($id: String!) {
+    deleteCrud(id: $id) {
+      id
+    }
+  }
+`;
 
 export const DataList = () => {
   const { loading, error, data, refetch } = useQuery(GET_CRUDS);
+  const [deleteCurd] = useMutation(DeleteCurdMutation);
+  console.log(data);
   if (data.cruds.length === 0) {
     return (
       <div className='taskScreen taskScreenE'>
@@ -22,6 +32,14 @@ export const DataList = () => {
       </div>
     );
   }
+  const deleteCurdSubmit = (idIn) => {
+    deleteCurd({
+      variables: {
+        id: idIn,
+      },
+      refetchQueries: [{ query: GET_CRUDS }],
+    });
+  };
   return (
     <div>
       <div className='taskScreen'>
@@ -31,7 +49,7 @@ export const DataList = () => {
               <div
                 className='archieved'
                 onClick={() => {
-                  alert("Delete");
+                  deleteCurdSubmit(crud.id);
                 }}
               >
                 <IconButton>
