@@ -1,0 +1,40 @@
+.formControl1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.fieldsDiv1 {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  padding: 10px;
+}
+.fields {
+  width: 100%;
+}
+.error {
+  color: tomato;
+}
+.btnDivF {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.green {
+  width: 25%;
+  background: linear-gradient(45deg, #abff92 30%, #99fffa 90%);
+}
+@media (max-width: 600px) {
+  .fieldsDiv1 {
+    width: 80%;
+  }
+  .green {
+    width: 50%;
+  }
+}
