@@ -22,3 +22,8 @@
 .title {
   color: rgb(0, 81, 255);
 }
+.btnsDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
