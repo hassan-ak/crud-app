@@ -1,0 +1,14 @@
+.right {
+  top: auto;
+  bottom: 0;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.grow {
+  flex-grow: 1;
+}
+.title {
+  color: rgb(119, 108, 108);
+}
