@@ -38,3 +38,67 @@
     width: 50%;
   }
 }
+.taskScreen {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  height: 48vh;
+  margin: 20px 0 20px;
+  overflow-y: auto;
+}
+.taskScreenE {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.taskScreen p {
+  color: rgb(110, 130, 184);
+  font-size: 50px;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(88, 177, 169);
+  border-radius: 50px;
+  margin-top: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(16, 109, 101);
+}
+/* ----------------------------- */
+.taskEntry {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 1px;
+  border: 1px solid rgb(172, 158, 158);
+  width: 100%;
+}
+.taskEntryA {
+  display: flex;
+  align-items: center;
+  background-color: rgb(233, 215, 215);
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 1px;
+  border: 1px solid rgb(172, 158, 158);
+  width: 100%;
+}
+.archieved {
+  width: 10%;
+}
+.contnet {
+  width: 80%;
+}
+.pinned {
+  width: 10%;
+  display: flex;
+  justify-content: flex-end;
+}
