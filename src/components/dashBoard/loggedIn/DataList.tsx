@@ -20,10 +20,18 @@ const DeleteCurdMutation = gql`
     }
   }
 `;
+const UpdateCrudMutation = gql`
+  mutation updateCrud($id: String!, $text: String!) {
+    updateCrud(id: $id, text: $text) {
+      id
+    }
+  }
+`;
 
 export const DataList = () => {
   const { loading, error, data, refetch } = useQuery(GET_CRUDS);
   const [deleteCurd] = useMutation(DeleteCurdMutation);
+  const [updateCrud] = useMutation(UpdateCrudMutation);
   console.log(data);
   if (data.cruds.length === 0) {
     return (
@@ -36,6 +44,15 @@ export const DataList = () => {
     await deleteCurd({
       variables: {
         id: idIn,
+      },
+    });
+    await refetch();
+  };
+  const updateCrudSubmit = async (id: any, textE: string) => {
+    await updateCrud({
+      variables: {
+        id: id,
+        text: textE,
       },
     });
     await refetch();
@@ -60,7 +77,7 @@ export const DataList = () => {
               <div
                 className='pinned'
                 onClick={() => {
-                  alert("editing");
+                  updateCrudSubmit(crud.id, "testing edit");
                 }}
               >
                 <IconButton>

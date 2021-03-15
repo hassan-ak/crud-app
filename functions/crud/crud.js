@@ -16,6 +16,7 @@ const typeDefs = gql`
   type Mutation {
     addCrud(text: String!): Crud
     deleteCrud(id: String!): Crud
+    updateCrud(id: String!, text: String!): Crud
   }
 `;
 const resolvers = {
@@ -52,6 +53,25 @@ const resolvers = {
         id: results.ref.id,
       };
     },
+    // ----------------
+    updateCrud: async (_, { text, id }, { user }) => {
+      if (!user) {
+        throw new Error("Must be authenticated to insert todos");
+      }
+      const results = await client.query(
+        q.Update(q.Ref(q.Collection("cruds"), id), {
+          data: {
+            text,
+            owner: user,
+          },
+        })
+      );
+      return {
+        ...results.data,
+        id: results.ref.id,
+      };
+    },
+    // ----------------
     deleteCrud: async (_, { id }, { user }) => {
       if (!user) {
         throw new Error("Must be authenticated to delete todos");
