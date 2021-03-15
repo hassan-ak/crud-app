@@ -32,13 +32,13 @@ export const DataList = () => {
       </div>
     );
   }
-  const deleteCurdSubmit = (idIn) => {
-    deleteCurd({
+  const deleteCurdSubmit = async (idIn) => {
+    await deleteCurd({
       variables: {
         id: idIn,
       },
-      refetchQueries: [{ query: GET_CRUDS }],
     });
+    await refetch();
   };
   return (
     <div>

@@ -59,7 +59,10 @@ const resolvers = {
       const results = await client.query(
         q.Delete(q.Ref(q.Collection("cruds"), id))
       );
-      return results.ref.id;
+      return {
+        ...results.data,
+        id: results.ref.id,
+      };
     },
   },
 };
