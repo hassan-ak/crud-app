@@ -76,7 +76,7 @@ export const Landing = () => {
               App to demsotrate Create, Read, Update and Delete functionality in
               Gatsby and Faunadb.
             </Typography>
-            {user === undefined ? (
+            {!user ? (
               <div>
                 <Typography variant='body1' gutterBottom className='homeDetail'>
                   You need to SignIn for using this app.
