@@ -78,7 +78,7 @@ export const Landing = () => {
                 alert("clicked");
               }}
             >
-              SignIn
+              Sign In
             </Button>
           </CardContent>
         </Grid>
