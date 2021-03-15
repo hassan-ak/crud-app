@@ -34,7 +34,7 @@ const Header = () => {
         <Toolbar>
           <IconButton
             edge='start'
-            aria-label='Blogistan'
+            aria-label='CRUD'
             onClick={() => {
               navigate("/");
             }}
@@ -43,7 +43,7 @@ const Header = () => {
               className={classes.appLogo}
               src='../../asserts/logo.png'
               alt='logo'
-              placeholder='none'
+              placeholder='tracedSVG'
             />
           </IconButton>
           <Typography variant='h4' className={classes.headerTitle}>
