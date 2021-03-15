@@ -5,7 +5,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { navigate } from "gatsby";
 import { useContext } from "react";
-import { IdentityContext } from "../../../identity-context";
+import { IdentityContext } from "../../../../identity-context";
 
 export const AppHead = () => {
   const { identity: netlifyIdentity } = useContext(IdentityContext);
