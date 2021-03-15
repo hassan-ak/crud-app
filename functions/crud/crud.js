@@ -16,9 +16,6 @@ const typeDefs = gql`
     addCrud(text: String!): Crud
   }
 `;
-
-const cruds = {};
-let crudIndex = 0;
 const resolvers = {
   Query: {
     cruds: async (parent, args, { user }) => {
@@ -26,7 +23,7 @@ const resolvers = {
         return [];
       } else {
         const results = await client.query(
-          q.Paginate(q.Match(q.Index("curds_by_user"), user))
+          q.Paginate(q.Match(q.Index("cruds_by_user"), user))
         );
         return results.data.map(([ref, text]) => ({
           id: ref.id,
@@ -36,12 +33,12 @@ const resolvers = {
     },
   },
   Mutation: {
-    addCurd: async (_, { text }, { user }) => {
+    addCrud: async (_, { text }, { user }) => {
       if (!user) {
         throw new Error("Must be authenticated to insert todos");
       }
       const results = await client.query(
-        q.Create(q.Collection("curds"), {
+        q.Create(q.Collection("cruds"), {
           data: {
             text,
             owner: user,
