@@ -17,9 +17,12 @@ const cruds = {};
 let crudIndex = 0;
 const resolvers = {
   Query: {
-    cruds: () => {
-      console.log("fetching");
-      return Object.values(cruds);
+    cruds: (parent, args, { user }) => {
+      if (!user) {
+        return [];
+      } else {
+        return Object.values(cruds);
+      }
     },
   },
   Mutation: {
@@ -36,6 +39,13 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ context }) => {
+    if (context.clientContext.user) {
+      return { user: context.clientContext.user.sub };
+    } else {
+      return {};
+    }
+  },
 });
 
 const handler = server.createHandler();
