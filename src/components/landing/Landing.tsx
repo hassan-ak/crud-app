@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import netlifyIdentity from "netlify-identity-widget";
+import React, { useEffect, useState, useContext } from "react";
 import { navigate } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 import "./landing.css";
+import { IdentityContext } from "../../../identity-context";
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -34,17 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Landing = () => {
   const classes = useStyles();
-  const [user, setUser] = useState("");
-  useEffect(() => {
-    netlifyIdentity.init({});
-  });
-  netlifyIdentity.on("login", (user) => {
-    netlifyIdentity.close();
-    setUser(user.user_metadata.full_name);
-  });
-  netlifyIdentity.on("logout", () => {
-    setUser("");
-  });
+  const { user, identity: netlifyIdentity } = useContext(IdentityContext);
   return (
     <div className='homeContainer'>
       <Grid container className={classes.mainGrid}>
@@ -86,7 +76,7 @@ export const Landing = () => {
               App to demsotrate Create, Read, Update and Delete functionality in
               Gatsby and Faunadb.
             </Typography>
-            {user === "" ? (
+            {user === undefined ? (
               <div>
                 <Typography variant='body1' gutterBottom className='homeDetail'>
                   You need to SignIn for using this app.
@@ -106,7 +96,7 @@ export const Landing = () => {
             ) : (
               <div>
                 <Typography variant='body1' gutterBottom className='homeDetail'>
-                  WelCome {user}!
+                  WelCome {user.user_metadata.full_name}!
                 </Typography>
                 <div className='btnsDiv'>
                   <Button
@@ -124,7 +114,7 @@ export const Landing = () => {
                     variant='contained'
                     className={classes.soButton}
                     onClick={() => {
-                      netlifyIdentity.open();
+                      netlifyIdentity.logout();
                     }}
                   >
                     Sign Out
