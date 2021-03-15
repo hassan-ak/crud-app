@@ -2,13 +2,32 @@ const { ApolloServer, gql } = require("apollo-server-lambda");
 
 const typeDefs = gql`
   type Query {
-    hello: String
+    cruds: [Crud]!
+  }
+  type Crud {
+    id: ID!
+    text: String!
+  }
+  type Mutation {
+    addCrud(text: String!): Crud
   }
 `;
 
+const cruds = {};
+let crudIndex = 0;
 const resolvers = {
   Query: {
-    hello: () => "Hello, world!",
+    cruds: () => {
+      return Object.values(cruds);
+    },
+  },
+  Mutation: {
+    addCrud: (_, { text }) => {
+      crudIndex++;
+      const id = `key-${crudIndex}`;
+      cruds[id] = { id, text, done: false };
+      return cruds[id];
+    },
   },
 };
 
