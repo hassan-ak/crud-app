@@ -8,6 +8,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import "./appLogedIn.css";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 // Type Defination
 interface EntryProps {
@@ -19,21 +20,25 @@ const initialValues: EntryProps = {
   entry: "",
 };
 
-const crudsReducer = (state, action) => {
-  switch (action.type) {
-    case "addCruds":
-      return [
-        {
-          id: Math.floor(Math.random() * 100000000000000),
-          value: action.payload,
-        },
-        ...state,
-      ];
+const ADD_CRUD = gql`
+  mutation AddCrud($text: String!) {
+    addCrud(text: $text) {
+      id
+    }
   }
-};
+`;
+const GET_CRUDS = gql`
+  query GetCruds {
+    cruds {
+      id
+      text
+    }
+  }
+`;
 
 export const AppLogedIn = () => {
-  const [cruds, dispatch] = useReducer(crudsReducer, []);
+  const [addCrud] = useMutation(ADD_CRUD);
+  const { loading, error, data, refetch } = useQuery(GET_CRUDS);
   return (
     <div>
       <AppHead />
@@ -46,9 +51,10 @@ export const AppLogedIn = () => {
               .max(15, "Must be 15 characters or less")
               .required("Kindly add some Text"),
           })}
-          onSubmit={(values, onSubmitProps) => {
-            dispatch({ type: "addCruds", payload: values.entry });
+          onSubmit={async (values, onSubmitProps) => {
+            await addCrud({ variables: { text: values.entry } });
             onSubmitProps.resetForm();
+            await refetch();
           }}
         >
           <Form className='formControl1'>
@@ -78,14 +84,12 @@ export const AppLogedIn = () => {
             </div>
           </Form>
         </Formik>
-        {cruds.length === 0 ? (
-          <div className='taskScreen taskScreenE'>
-            <p>Nothing to Display</p>
-          </div>
-        ) : (
+        {error ? <div>{error.message}</div> : null}
+        {loading ? <div>loading...</div> : null}
+        {!loading && !error && (
           <div className='taskScreen'>
-            {cruds.map((crud, i) => (
-              <div key={i}>
+            {data.cruds.map((crud) => (
+              <div key={crud.id}>
                 <div className={crud.done ? "taskEntryA" : "taskEntry"}>
                   <div
                     className='archieved'
@@ -97,7 +101,7 @@ export const AppLogedIn = () => {
                       <DeleteForeverIcon style={{ color: "red" }} />
                     </IconButton>
                   </div>
-                  <div className='contnet'>{crud.value}</div>
+                  <div className='contnet'>{crud.text}</div>
                   <div
                     className='pinned'
                     onClick={() => {

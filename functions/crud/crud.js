@@ -18,11 +18,13 @@ let crudIndex = 0;
 const resolvers = {
   Query: {
     cruds: () => {
+      console.log("fetching");
       return Object.values(cruds);
     },
   },
   Mutation: {
     addCrud: (_, { text }) => {
+      console.log("adding");
       crudIndex++;
       const id = `key-${crudIndex}`;
       cruds[id] = { id, text, done: false };
@@ -38,4 +40,9 @@ const server = new ApolloServer({
 
 const handler = server.createHandler();
 
-module.exports = { handler };
+exports.handler = server.createHandler({
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+});

@@ -10,7 +10,7 @@ import {
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: "/.netlify/functions/crud",
+    uri: "https://project12b-hassanalikhan.netlify.app/.netlify/functions/crud",
   }),
 });
 
